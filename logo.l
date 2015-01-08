@@ -1,5 +1,6 @@
 %{
-#include <stdio.h>  
+#include <stdio.h> 
+#include "logo.h" 
 #include "logo.tab.h"
 %}
 
@@ -8,10 +9,9 @@
 "LEFT" return LEFT;
 "RIGHT" return RIGHT;
 "REPEAT" return REPEAT;
-(-?[1-9][0-9]*)|0 yylval=atoi(yytext); return VALUE;
+(-?[1-9][0-9]*)|0 {yylval.VAL=atoi(yytext); return VALUE;}
 "[" return ENTREE;
 "]" return FIN;
-[ \t] 
-\n  return RETURN_CHARIOT;
-" " return SEPARA;
 %%
+
+/*include logo.h 如果在logo.tab.h后面，那么他将无法识别定义在logo.h里的类型*/

@@ -83,7 +83,6 @@ INSTRUCTION: FORWARD VALUE
    $$=NewNode(4, $2, $4); 
 }
 %%
-int lire_memoire//8.1.15
 
 int which_direction(int direction_of_spin, int original_direction, int times)
 {
@@ -93,30 +92,6 @@ int which_direction(int direction_of_spin, int original_direction, int times)
    return k;
 }
 
-char* cree_la_phrase_svg(int direction, int x_origin, int y_origin, int valeur)
-{
-   int x_deplace, y_deplace;
-   if(direction==1 || directon==3)
-   {
-	y_deplace=(direction-2)*valeur+y_origin;
-	x_deplace=x_origin;
-   }
-   else
-   {
-	y_deplace=y_origin;
-	x_deplace=(direction-1)*valeur+x_origin;
-   }
-   if(y_deplace<0)
-	y_deplace=0;
-   if(x_deplace<0)
-	x_deplace=0;
-   if(y_deplace>200)
-	y_deplace=200;
-   if(x_deplace>200)
-	x_deplace=200;
-   char phrase[]="<line x1=\""+x_origin+".000\" y1=\""+y_origin+".000\" x2=\""+x_deplace+".000\" y2=\""+y_deplace+".000\" stroke=\"red\" />\n";
-   return phrase;
-}
 int main()
 {
   FILE* fp;
