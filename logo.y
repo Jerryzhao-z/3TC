@@ -6,12 +6,13 @@
 
 
 
-static int direction=270;
+static double direction=270;
 static Node* tete;
 static int verification_branche=0;
-static x_position=100;
-static y_position=100;
-#define PI 3.14159265358979323846
+static int repeat_est_la_tete=0;
+static double x_position=100;
+static double y_position=100;
+#define PI 3.141
 
 #define clockwise 1
 #define anticlockwise -1
@@ -42,11 +43,12 @@ int yywrap()
 };
 
 %type <VAL> VALUE FORWARD LEFT RIGHT REPEAT ENTREE FIN
-%type <NODE_TYPE> BLOC INSTRUCTION
+%type <NODE_TYPE> BLOC BODY INSTRUCTION
 
 %%
 BLOC: INSTRUCTION
-{	
+{
+   	
    $$=NewProg(); 
    $$=AddNode($$, $1); 
    if(verification_branche==0)
@@ -58,36 +60,53 @@ BLOC: INSTRUCTION
 } 
 | BLOC INSTRUCTION
 {
+
+  $$=AddNode($1, $2);
+}
+BODY: INSTRUCTION
+{
+   	
+   $$=NewProg(); 
+   $$=AddNode($$, $1); 
+} 
+| BODY INSTRUCTION
+{
+
   $$=AddNode($1, $2);
 }
 INSTRUCTION: FORWARD VALUE
 {
-   $$=NewNode(1, $2, NULL); 
+
+  $$=NewNode(1, $2, NULL); 
 }
 |LEFT VALUE
 {
+
    $$=NewNode(2, $2, NULL); 
 }
 |RIGHT VALUE
 {
+	
    $$=NewNode(3, $2, NULL); 
 }
-|REPEAT VALUE ENTREE BLOC FIN
+|REPEAT VALUE ENTREE BODY FIN
 {
+
    $$=NewNode(4, $2, $4); 
+
 }
 %%
 
 
-int which_direction(int direction_of_spin, int original_direction, int times)
+int which_direction(double direction_of_spin, double original_direction, double times)
 {
-	direction=(original_direction+(direction_of_spin*times))%360;
+	direction=(original_direction+(direction_of_spin*times));
 	if(direction<0)
 		direction+360;
 	return direction;
 }
 
-void cree_la_phrase_svg(int direction, int x_deplace, int y_deplace, FILE* fp)
+void cree_la_phrase_svg(double direction, double x_deplace, double y_deplace, FILE* fp)
 {
    if(y_deplace<0)
 	y_deplace=0;
@@ -97,18 +116,18 @@ void cree_la_phrase_svg(int direction, int x_deplace, int y_deplace, FILE* fp)
 	y_deplace=200;
    if(x_deplace>200)
 	x_deplace=200;
-   fprintf(fp, "<line x1=\"%d.000\" y1=\"%d.000\" x2=\"%d.000\" y2=\"%d.000\" stroke=\"red\" />\n", x_position, y_position, x_deplace, y_deplace);
+   fprintf(fp, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"red\" />\n", x_position, y_position, x_deplace, y_deplace);
    x_position=x_deplace;
    y_position=y_deplace;
 }
 
-int prochaine_x(int valeur)
+double prochaine_x(int valeur)
 {
-	return (int)(sin((double)direction/360*2*PI)*valeur)+x_position;
+	return sin(direction/360*2*PI)*(double)valeur+x_position;
 }
-int prochaine_y(int valeur)
+double prochaine_y(int valeur)
 {
-	return (int)(-cos((double)direction/360*2*PI)*valeur)+y_position;
+	return -cos(direction/360*2*PI)*(double)valeur+y_position;
 }
 
 int lecture_Noeud(Node* noeud, FILE* fp)

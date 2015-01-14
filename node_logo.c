@@ -4,7 +4,8 @@
 
 Node* NewProg()
 {
-  return (Node*)malloc(sizeof(Node));  
+  return (Node*)malloc(sizeof(Node)); 
+
 }
 
 Node* NewNode(int command, int entier, Node* SubProgram)
@@ -15,7 +16,7 @@ Node* NewNode(int command, int entier, Node* SubProgram)
   nodeCree->type=command;
   nodeCree->value=entier;
   nodeCree->SousProgram=SubProgram;
- 
+
   return nodeCree;
 }
 
