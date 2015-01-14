@@ -2,7 +2,7 @@
 all: logofile
 
 logofile: logo.tab.o lex.yy.o logo.h node_logo.c
-	gcc logo.tab.o lex.yy.o node_logo.c -o TClogo
+	gcc logo.tab.o lex.yy.o node_logo.c -lm -o TClogo #-lm sert a ajouter le library of math!!!!!
 	./TClogo <test.TClogo	
 
 logo.tab.c: logo.y logo.h
@@ -12,5 +12,5 @@ lex.yy.c: logo.l logo.h
 	flex logo.l
 
 clean:
-	\rm -rf *~ logo.tab.* lex.yy.c a.out *.o TClogo
+	\rm -rf *~ logo.tab.* lex.yy.c a.out *.o TClogo cible.svg
   

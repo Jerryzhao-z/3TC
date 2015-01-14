@@ -1,9 +1,8 @@
 %{
-#include <stdio.h> 
-#include "logo.h" 
+#include <stdio.h>
+#include "logo.h"
 #include "logo.tab.h"
 %}
-
 %%
 "FORWARD" return FORWARD;
 "LEFT" return LEFT;
@@ -13,5 +12,7 @@
 "[" return ENTREE;
 "]" return FIN;
 %%
-
 /*include logo.h 如果在logo.tab.h后面，那么他将无法识别定义在logo.h里的类型*/
+
+
+
