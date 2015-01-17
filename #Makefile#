@@ -1,8 +1,7 @@
 
 all: logofile
 
-logofile: logo.tab.o lex.yy.o logo.h node_logo.c test.TClogo
-
+logofile: logo.tab.o lex.yy.o logo.h node_logo.c 
 	gcc logo.tab.o lex.yy.o node_logo.c -lm -o TClogo #-lm sert a ajouter le library of math!!!!!
 	./TClogo <test.TClogo	
 

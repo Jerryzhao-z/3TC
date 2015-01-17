@@ -49,8 +49,7 @@ int yywrap()
 BLOC: INSTRUCTION
 {
    	
-   $$=NewProg(); 
-   $$=AddNode($$, $1); 
+   $$ = $1; 
    if(verification_branche==0)
    {
 	tete=$$;
@@ -66,8 +65,7 @@ BLOC: INSTRUCTION
 BODY: INSTRUCTION
 {
    	
-   $$=NewProg(); 
-   $$=AddNode($$, $1); 
+   $$ = $1; 
 } 
 | BODY INSTRUCTION
 {
@@ -98,9 +96,9 @@ INSTRUCTION: FORWARD VALUE
 %%
 
 
-int which_direction(double direction_of_spin, double original_direction, double times)
+int which_direction(double direction_of_spin, double original_direction, double angle)
 {
-	direction=(original_direction+(direction_of_spin*times));
+	direction=(original_direction+(direction_of_spin*angle));
 	if(direction<0)
 		direction+360;
 	return direction;
@@ -159,7 +157,7 @@ int lecture_Noeud(Node* noeud, FILE* fp)
 int main()
 {
   FILE* fp;
-  fp=fopen("cible.svg","a");
+  fp=fopen("cible.svg","w");
   char headofsvg[] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
   char annonce[] = "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"200\" height=\"200\">\n";
   char title[] = "<title>Exemple LOGO</title>\n";
